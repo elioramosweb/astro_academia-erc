@@ -1,6 +1,7 @@
 // SphereWithShader.jsx
 import { useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useControls } from 'leva';
 import { ShaderMaterial } from 'three'
 import { DoubleSide } from 'three'
 
@@ -24,26 +25,23 @@ const fragmentShader = `
     #define NMAX 100
     
     uniform float uTime;
+    uniform float uDisplaceX;
+    uniform float uDisplaceY;
+    uniform float uWhite;
+    uniform float uBlack;
+
     varying vec3 vNormal;
     varying vec3 vPosition;
     varying vec2 vUv;
 
-    
-    float rand(float n){return fract(sin(n) * 43758.5453123);}
-
-    float noise(float p){
-      float fl = floor(p);
-      float fc = fract(p);
-      return mix(rand(fl), rand(fl + 1.0), fc);
-    }
-
     vec3 hotPalette(float t) {
-            float r = smoothstep(0.0, 0.5, t); 
-            float g = smoothstep(0.25, 0.75, t); 
-            float b = smoothstep(0.5, 1.0, t);
-            float intensity = mix(0.50, 1.0, t);
-            return vec3(r * intensity, g * intensity, b * intensity);
+        float r = smoothstep(0.0, 0.5, t); 
+        float g = smoothstep(0.25, 0.75, t); 
+        float b = smoothstep(0.5, 1.0, t);
+        float intensity = mix(0.50, 1.0, t);
+        return vec3(r * intensity, g * intensity, b * intensity);
     }
+    
     
     float lyapunov(vec2 coord) {
         float x = 0.5;
@@ -62,41 +60,62 @@ const fragmentShader = `
 
         vec2 uv = vUv;
 
-        uv.x += 2.98 - 0.255;
-        uv.y += 3.03 - 0.054;
+        uv.x += uDisplaceX;
+        uv.y += uDisplaceY;
     
         float lyap = smoothstep(-1.0, 0.8, lyapunov(uv));
         vec3 col = hotPalette(lyap);
-        float dist = distance(col,vec3(0.0));
-        if (dist < 0.2)
-        {
-          col = vec3(0.0);
+
+        float distWhite = distance(col,vec3(1.0));
+        float distBlack = distance(col,vec3(0.0));
+
+        if (distWhite < uWhite || distBlack < uBlack) {
+          discard;
         }
+
         gl_FragColor = vec4(col, 1.0);
-    }
-`
+      }
+  `
 
-export default function PlaneWithShader() {
-  const shaderRef = useRef();
 
-  useFrame(({ clock }) => {
-    if (shaderRef.current) {
-      shaderRef.current.uniforms.uTime.value = clock.getElapsedTime()
-    }
-  })
-
-  return (
-    <mesh position={[0,0,0]}>
-      <planeGeometry args={[5, 5,64, 64]} />
-      <shaderMaterial
-        ref={shaderRef}
-        vertexShader={vertexShader}
-        fragmentShader={fragmentShader}
-        uniforms={{
-          uTime: { value: 0 }
-        }}
-        side={DoubleSide}
-      />
-    </mesh>
-  )
-}
+  export default function PlaneWithShader() {
+    const shaderRef = useRef();
+  
+    // Panel de controles
+    const { uDisplaceX, uDisplaceY, uWhite, uBlack } = useControls({
+      uDisplaceX: { value: 2, min: 0, max: 5, step: 0.01 },
+      uDisplaceY: { value: 2, min: 0, max: 5, step: 0.01 },
+      uWhite:     { value: 0, min: 0, max: 1, step: 0.01 },
+      uBlack:     { value: 0, min: 0, max: 1, step: 0.01 },
+    });
+  
+    useFrame(({ clock }) => {
+      const mat = shaderRef.current?.uniforms;
+      if (mat) {
+        mat.uTime.value       = clock.getElapsedTime();
+        mat.uDisplaceX.value  = uDisplaceX;
+        mat.uDisplaceY.value  = uDisplaceY;
+        mat.uWhite.value      = uWhite;
+        mat.uBlack.value      = uBlack;
+      }
+    });
+  
+    return (
+      <mesh>
+        <planeGeometry args={[5, 5, 64, 64]} />
+        <shaderMaterial
+          ref={shaderRef}
+          vertexShader={vertexShader}
+          fragmentShader={fragmentShader}
+          uniforms={{
+            uTime:        { value: 0 },
+            uDisplaceX:   { value: uDisplaceX },
+            uDisplaceY:   { value: uDisplaceY },
+            uWhite:       { value: uWhite },
+            uBlack:       { value: uBlack }
+          }}
+          side={DoubleSide}
+        />
+      </mesh>
+    );
+  }
