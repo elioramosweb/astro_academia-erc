@@ -1,0 +1,46 @@
+---
+import { Image } from 'astro:assets'
+
+import SocialIcons from './SocialIcons.astro'
+
+
+const {fullName, title, institute, profilePicture} = Astro.props
+---
+<div class='flex-1'>
+  <h1 class='text-4xl font-bold mb-4'>
+  <span class='text-secondary'>{fullName}</span>
+  </h1>
+  <!-- <p class='text-xl text-gray-600 mb-4'>{title}{institute ? ` at ${institute}` : ''}</p> -->
+  <!-- <p class='text-lg mb-6'> -->
+    <div style="max-width:95%; margin-left: 0; margin-right: auto; text-align: justify;">
+      Soy profesor de Matemáticas, Ciencia de Cómputo y Ciencia de Datos en el Departamento de Matemáticas de la 
+      <a href="https://www.uprh.edu" target="_blank" class="text-blue-600 hover:underline">
+      Universidad de Puerto Rico en Humacao</a>. Soy el coordinador académico del 
+      <a href="https://cdat.uprh.edu" target="_blank" class="text-blue-600 hover:underline">Programa de Bachillerato en 
+      Ciencia de Datos (PBCD)</a>. Tengo un PhD en Ciencias Computacionales e Informática de 
+      <a href="https://gmu.edu" target="_blank" class="text-blue-600 hover:underline">George Mason University</a>.  
+      <br><br>
+    Dentro del PBCD enseño los cursos de:
+    <br>
+    <br>
+    <ul class="list-disc ml-6">
+      <li>Introducción a la Programación y la Ciencia de Cómputos I y su Laboratorio (Comp3081/Comp3083)</li>
+      <li>Introducción a la Programación y la Ciencia de Cómputos II y su Laboratorio (Comp3082/Comp3084)</li>
+      <li>Visualización de Datos (CDAT3001)</li>
+      <li>Diseño de Aplicaciones para la Web y Móviles (Comp4010)</li>
+      <li>Investigación subgraduada (Mate4010)</li>
+    </ul>
+    </div>
+ <br>
+  <div class='flex gap-4'>
+    <SocialIcons />
+  </div>
+</div>
+<div class='size-72 lg:block hidden'>
+  <!-- Add your profile image -->
+  <Image
+    src={profilePicture}
+    alt={fullName}
+    class='w-full h-full mask mask-circle size-44'
+  />
+</div>
