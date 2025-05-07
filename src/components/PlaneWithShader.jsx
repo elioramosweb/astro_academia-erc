@@ -77,45 +77,49 @@ const fragmentShader = `
       }
   `
 
+export default function PlaneWithShader() {
+  const shaderRef = useRef();
 
-  export default function PlaneWithShader() {
-    const shaderRef = useRef();
-  
-    // Panel de controles
-    const { uDisplaceX, uDisplaceY, uWhite, uBlack } = useControls({
-      uDisplaceX: { value: 2, min: 0, max: 5, step: 0.01 },
-      uDisplaceY: { value: 2, min: 0, max: 5, step: 0.01 },
-      uWhite:     { value: 0, min: 0, max: 1, step: 0.01 },
-      uBlack:     { value: 0, min: 0, max: 1, step: 0.01 },
-    });
-  
-    useFrame(({ clock }) => {
-      const mat = shaderRef.current?.uniforms;
-      if (mat) {
-        mat.uTime.value       = clock.getElapsedTime();
-        mat.uDisplaceX.value  = uDisplaceX;
-        mat.uDisplaceY.value  = uDisplaceY;
-        mat.uWhite.value      = uWhite;
-        mat.uBlack.value      = uBlack;
-      }
-    });
-  
-    return (
-      <mesh>
-        <planeGeometry args={[5, 5, 64, 64]} />
-        <shaderMaterial
-          ref={shaderRef}
-          vertexShader={vertexShader}
-          fragmentShader={fragmentShader}
-          uniforms={{
-            uTime:        { value: 0 },
-            uDisplaceX:   { value: uDisplaceX },
-            uDisplaceY:   { value: uDisplaceY },
-            uWhite:       { value: uWhite },
-            uBlack:       { value: uBlack }
-          }}
-          side={DoubleSide}
-        />
-      </mesh>
-    );
-  }
+  // 1. Desestructura TODOS los valores, incluido uZoom
+  const { uZoom, uDisplaceX, uDisplaceY, uWhite, uBlack } = useControls({
+    uZoom:      { value: 1, min: 0, max: 2, step: 0.01 },
+    uDisplaceX: { value: 2, min: 0, max: 5, step: 0.01 },
+    uDisplaceY: { value: 2, min: 0, max: 5, step: 0.01 },
+    uWhite:     { value: 0, min: 0, max: 1, step: 0.01 },
+    uBlack:     { value: 0, min: 0, max: 1, step: 0.01 },
+  });
+
+  // 2. Cada frame, actualiza todos los uniformes
+  useFrame(({ clock }) => {
+    const mat = shaderRef.current?.uniforms;
+    if (mat) {
+      mat.uTime.value       = clock.getElapsedTime();
+      mat.uZoom.value       = uZoom;
+      mat.uDisplaceX.value  = uDisplaceX;
+      mat.uDisplaceY.value  = uDisplaceY;
+      mat.uWhite.value      = uWhite;
+      mat.uBlack.value      = uBlack;
+    }
+  });
+
+  return (
+    <mesh>
+      <planeGeometry args={[5, 5, 64, 64]} />
+      <shaderMaterial
+        ref={shaderRef}
+        vertexShader={vertexShader}
+        fragmentShader={fragmentShader}
+        uniforms={{
+          uTime:       { value: 0 },
+          // Inicializa con el valor de Leva para evitar flicker
+          uZoom:       { value: uZoom },
+          uDisplaceX:  { value: uDisplaceX },
+          uDisplaceY:  { value: uDisplaceY },
+          uWhite:      { value: uWhite },
+          uBlack:      { value: uBlack },
+        }}
+        side={DoubleSide}
+      />
+    </mesh>
+  );
+}
