@@ -3,6 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 import { profile } from "@/settings";
 import BetterIcon from "@/components/ui/BetterIcon.astro";
 import List from "@/components/ui/List.astro";
+import Grid from '@/components/ui/Grid.astro'
 import {RESEARCH_ICONS} from "@/data/researchIcons";
 import MyScene from "../components/MyScene";
 
@@ -11,9 +12,17 @@ const { research_areas } = profile;
 
 <Layout title="Proyectos">
   <div class="prose max-w-none">
-    <h1 class="text-3xl font-bold mb-8">Proyectos</h1>
+    <h1 class="text-3xl font-bold mb-4">Proyectos</h1>
+    <ul class="list-disc list-inside space-y-2">
+      <li>
+        <a
+          href="/lyapunov2D/"
+          class="text-blue-600 hover:underline"
+          data-astro-prefetch
+        >
+          Visualización del Fractal de Lyapunov en 2D utilizando R3F y Shaders 
+        </a>
+      </li>
+    </ul>
   </div>
-
-<MyScene client:load/>
-
 </Layout>
