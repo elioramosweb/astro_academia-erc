@@ -4,6 +4,7 @@ import { profile } from "@/settings";
 import BetterIcon from "@/components/ui/BetterIcon.astro";
 import List from "@/components/ui/List.astro";
 import {RESEARCH_ICONS} from "@/data/researchIcons";
+import MyScene from "../components/MyScene";
 
 const { research_areas } = profile;
 ---
@@ -12,4 +13,7 @@ const { research_areas } = profile;
   <div class="prose max-w-none">
     <h1 class="text-3xl font-bold mb-8">Proyectos</h1>
   </div>
+
+<MyScene client:load/>
+
 </Layout>
