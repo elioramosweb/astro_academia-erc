@@ -1,0 +1,42 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { profile } from "@/settings";
+import BetterIcon from "@/components/ui/BetterIcon.astro";
+import List from "@/components/ui/List.astro";
+import Grid from '@/components/ui/Grid.astro'
+import {RESEARCH_ICONS} from "@/data/researchIcons";
+import MyScene from "../components/MyScene";
+
+const { research_areas } = profile;
+---
+
+<Layout title="Proyectos">
+  <div class="prose max-w-none">
+    <h1 class="text-3xl font-bold mb-4">Fractal de Lyapunov</h1>
+
+    <p class="text-justify">
+    En este proyecto desarrollamos varias herramientas interactivas en donde abordamos un problema clásico de la teoría 
+    de sistemas dinámicos: la visualización de las regiones de estabilidad y caos en el modelo logístico con 
+    forzamiento periódico. Utilizando shaders, representamos en 2D y 3D las zonas que exhiben comportamientos 
+    estables y caóticos, determinadas a partir del cálculo del exponente de Lyapunov. Los shaders son programas 
+    de alto rendimiento que se ejecutan en paralelo para cada fragmento de píxel en la unidad de procesamiento gráfico 
+    (GPU). Gracias a su capacidad de cálculo masivo, permiten generar en tiempo real efectos visuales complejos y 
+    artísticos, lo que ha revolucionado no solo la industria de los videojuegos, sino también campos como la visualización 
+    científica, las simulaciones y el aprendizaje automático, donde se utilizan para acelerar el procesamiento de imágenes 
+    y datos.Esto no solo facilita la comprensión de fenómenos complejos, sino que también demuestra el potencial de los shaders
+     en aplicaciones científicas y técnicas avanzadas.
+    </p>
+
+    <ul class="list-disc list-inside space-y-2">
+      <li>
+        <a
+          href="/lyapunov2D/"
+          class="text-blue-600 hover:underline"
+          data-astro-prefetch
+        >
+          Visualización del Fractal de Lyapunov en 2D utilizando R3F y Shaders 
+        </a>
+      </li>
+    </ul>
+  </div>
+</Layout>
