@@ -5,7 +5,8 @@ import BetterIcon from "@/components/ui/BetterIcon.astro";
 import List from "@/components/ui/List.astro";
 import Grid from '@/components/ui/Grid.astro'
 import {RESEARCH_ICONS} from "@/data/researchIcons";
-import MyScene from "../components/MyScene";
+import MyScene from "../components/Lyapunov2DScene";
+import Math from "@/components/Math.astro";
 
 const { research_areas } = profile;
 ---
@@ -27,6 +28,19 @@ const { research_areas } = profile;
      en aplicaciones científicas y técnicas avanzadas.
     </p>
 
+    <!-- El modelo o <a href="https://en-m-wikipedia-org.translate.goog/wiki/Logistic_map?_x_tr_sl=en&_x_tr_tl=es&_x_tr_hl=es&_x_tr_pto=tc" target="">map logístico</a>
+    esta dado por la siguiente fórmula de recurencia cuadrática:
+
+    <Math equation = "x_{n+1} = r x_n (1 - x_n)" displayMode={true} />
+
+    <p>
+      El exponente de Lyapunov se calcula a partir de la siguiente fórmula:
+    </p>
+
+    <Math equation="\\lambda = \\lim_{n \\to \\infty} \\frac{1}{n} \\sum_{i=1}^{n} \\ln |f'(x_i)|" displayMode={true} />
+
+   -->
+
     <ul class="list-disc list-inside space-y-2">
       <li>
         <a
@@ -34,7 +48,16 @@ const { research_areas } = profile;
           class="text-blue-600 hover:underline"
           data-astro-prefetch
         >
-          Visualización del Fractal de Lyapunov en 2D utilizando R3F y Shaders 
+          Visualización 2D 
+        </a>
+      </li>
+      <li>
+        <a
+          href="/lyapunov3D/"
+          class="text-blue-600 hover:underline"
+          data-astro-prefetch
+        >
+          Visualización 3D
         </a>
       </li>
     </ul>

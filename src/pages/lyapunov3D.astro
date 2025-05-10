@@ -4,7 +4,7 @@ import { profile } from "@/settings";
 import BetterIcon from "@/components/ui/BetterIcon.astro";
 import List from "@/components/ui/List.astro";
 import {RESEARCH_ICONS} from "@/data/researchIcons";
-import Lyapunov2DScene from "../components/Lyapunov2DScene";
+import Lyapunov3DScene from "../components/Lyapunov3DScene";
 
 const { research_areas } = profile;
 ---
@@ -21,10 +21,10 @@ const { research_areas } = profile;
       }}
     >
       <h1 style={{ fontSize: '1.875rem', fontWeight: 'bold', marginBottom: '1rem' }}>
-        El Fractal de Lyapunov utilizando Shaders (versión en 2D)
+        El Fractal de Lyapunov utilizando Shaders (versión en 3D)
       </h1>
   
-      <Lyapunov2DScene client:only="react" />
+      <Lyapunov3DScene client:only="react" />
     </div>
   </Layout>
   

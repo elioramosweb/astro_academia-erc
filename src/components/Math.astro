@@ -1,0 +1,12 @@
+---
+// src/components/Math.astro
+import katex from "katex";
+const { equation, displayMode = false } = Astro.props;
+
+const rendered = katex.renderToString(equation, {
+  throwOnError: false,
+  displayMode,
+});
+---
+
+<div class="katex" set:html={rendered} />

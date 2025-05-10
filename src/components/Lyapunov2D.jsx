@@ -63,13 +63,13 @@ const fragmentShader = `
   }
 `;
 
-export default function PlaneWithShader() {
+export default function Lyapunov2D() {
   const shaderRef = useRef();
 
   // 1) Sliders de Leva
   const { uZoom, uDisplaceX, uDisplaceY, uWhite, uBlack } = useControls({
     uZoom:      { value: 3.33,  min: 0.1, max: 10,   step: 0.001 },
-    uDisplaceX: { value: 2,  min:-10,  max: 20,   step: 0.001 },
+    uDisplaceX: { value: 1.95,  min:-10,  max: 20,   step: 0.001 },
     uDisplaceY: { value: 1.90,  min:-10,  max: 20,   step: 0.001 },
     uWhite:     { value: 0,  min: 0,   max: 1,   step: 0.001 },
     uBlack:     { value: 0,  min: 0,   max: 1,   step: 0.001 },
